@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% csrf_token %}
+    <h1>发送消息</h1>
+    <input placeholder="接受者" id="to" />
+    <input placeholder="消息内容" id="msg" />
+    <input type="button" value="发送" onclick="sendMsg();" />
+
+    <div>用户列表（{{ user_list.MemberCount }}）</div>
+    {% for user in user_list.MemberList %}
+        <div username="{{ user.UserName }}">
+{#            <img style="width: 50px;height: 50px;" src="/avatar.html?prev={{ user.HeadImgUrl }}">#}
+            <span>{{ user.NickName }}</span>
+        </div>
+    {% endfor %}
+
+    <script src="/static/js/jquery-1.12.4.js"></script>
+    <script>
+        var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        function  sendMsg() {
+            $.ajax({
+                url: '/send_msg.html',
+                type: "POST",
+                data: {'to': $('#to').val(), 'msg': $('#msg').val()},
+                success:function (arg) {
+                    alert(arg);
+                }
+            })
+        }
+
+        $(function () {
+            getMsg();
+        });
+
+        function getMsg() {
+            $.ajax({
+                url: '/get_msg.html',
+                type: 'GET',
+                success:function (arg) {
+                    //console.log(arg);
+                    getMsg();
+                }
+            })
+        }
+    </script>
+</body>
+</html>
