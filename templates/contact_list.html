@@ -19,32 +19,32 @@
         </div>
     {% endfor %}
 
-    <script src="/static/js/jquery-1.12.4.js"></script>
-    <script>
-        var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+<script src="/static/js/jquery-1.12.4.js"></script>
+<script>
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val();
 
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
-        });
-
-        function  sendMsg() {
-            $.ajax({
-                url: '/send_msg.html',
-                type: "POST",
-                data: {'to': $('#to').val(), 'msg': $('#msg').val()},
-                success:function (arg) {
-                    alert(arg);
-                }
-            })
         }
+    });
+
+    function  sendMsg() {
+        $.ajax({
+            url: '/send_msg.html',
+            type: "POST",
+            data: {'to': $('#to').val(), 'msg': $('#msg').val()},
+            success:function (arg) {
+                alert(arg);
+            }
+        })
+    }
 
         $(function () {
             getMsg();

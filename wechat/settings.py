@@ -123,3 +123,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'statics'),
 )
+
+LOGIN_URL = 'https://login.wx.qq.com'
+MAIN_URL = 'https://wx.qq.com/cgi-bin/mmwebwx-bin'
+USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36'
